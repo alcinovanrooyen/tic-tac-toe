@@ -1,0 +1,6 @@
+#buttons {
+    text-align: center;
+}
+#buttons .reset-btn {
+    background: orange;
+}
