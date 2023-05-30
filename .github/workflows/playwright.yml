@@ -38,7 +38,7 @@ jobs:
 
   deploy:
     needs: e2e_tests
-    if: ${{ needs.e2e_tests.results == 'success' }}
+    if: ${{ needs.e2e_tests.result == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
