@@ -1,10 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-const  checkXOAlternating =  ({ page }) => new Promise(async (resolve) => {
-    await page.goto('/');
-    await page.waitForLoadState('domcontentloaded');
-    
+const  checkXOAlternating =  page  => new Promise(async (resolve) => {
     let messageShowing = false, block;
     for (let i = 1; i < 10; i++) {
         messageShowing = await page.getByTestId('message-modal').isVisible();
@@ -31,8 +28,11 @@ const  checkXOAlternating =  ({ page }) => new Promise(async (resolve) => {
     resolve();
 });
 
-test('Checking clicks alternating between X and O \n for blocks 1 - 9', checkXOAlternating);
-
+test('Checking clicks alternating between X and O \n for blocks 1 - 9', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await checkXOAlternating(page);
+});
 
 test.describe("Test the reset buttons on game work well.", () => {
     test('Test reset button during game', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe("Test the reset buttons on game work well.", () => {
         for (let i = 1; i < 10; i++)
             await expect( page.getByTestId(`tic-${i}`) ).toBeEmpty();
         // Check X and O alternating as expected after reset
-        await checkXOAlternating({ page });
+        await checkXOAlternating(page);
     });
     
     test('Test reset button on modal', async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe("Test the reset buttons on game work well.", () => {
         // Check all 9 blocks are empty
         for (let i = 1; i < 10; i++)
             await expect( page.getByTestId(`tic-${i}`) ).toBeEmpty();
-      // Check X and O alternating as expected after reset
-        await checkXOAlternating({ page });
+        // Check X and O alternating as expected after reset
+        await checkXOAlternating(page);
     });
 });
