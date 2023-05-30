@@ -13,6 +13,8 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+    - name: Install PNPM
+      run: curl -fsSL https://get.pnpm.io/install.sh | sh -
     - name: Install dependencies
       run: pnpm install
     - name: Install Playwright Browsers
