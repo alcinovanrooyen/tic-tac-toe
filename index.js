@@ -1,9 +1,11 @@
 class TicTacToe {
     constructor() {
         this.nextShape = 'X';
-        this.messageSection = document.querySelector('#message');
-        this.blocks = document.querySelectorAll('#board > div');
-        this.resets = document.querySelectorAll('.reset-btn');
+        if (typeof document !== 'undefined') {
+            this.messageSection = document.querySelector('#message');
+            this.blocks = document.querySelectorAll('#board > div');
+            this.resets = document.querySelectorAll('.reset-btn');
+        }
         
         this.winCombs = [
             [1,2,3], [4,5,6], [7,8,9],  //  Horizontal
@@ -54,7 +56,7 @@ class TicTacToe {
             // For each direction reset matches to zero
             matches = 0;
             for (let n = 0; n < this.winCombs[i].length; n++) {
-                cBlock = document.querySelector(`#board > div:nth-child(${this.winCombs[i][n]})`);
+                cBlock = this.blocks[ this.winCombs[i][n] - 1 ];
                 // Tally when shape occurs 3 times in a row
                 if (cBlock.innerText == shape) 
                     matches++;
