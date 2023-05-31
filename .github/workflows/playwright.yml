@@ -1,4 +1,4 @@
-name: Playwright Tests
+name:  Test and Deploy
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 jobs:
-  e2e_tests:
+  all_tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -35,10 +35,12 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    - name: Run unit test via vitest
+      run: pnpm exec vitest unit
 
   deploy:
-    needs: e2e_tests
-    if: ${{ needs.e2e_tests.result == 'success' }}
+    needs: all_tests
+    if: ${{ needs.all_tests.result == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
